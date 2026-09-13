@@ -31,22 +31,10 @@ No local server is required — see [Loading question data](#loading-question-da
 ### Loading question data
 
 Question data lives in `data/questionSet1.js` and `data/questionSet2.js` as plain JavaScript
-(`const questionSet1Data = [...]`, `const questionSet2Data = [...]`), loaded via ordinary
-`<script>` tags in `index.html`, rather than as `.json` files fetched with `XMLHttpRequest`/`fetch`.
-
-This matters because opening `index.html` straight from disk (a `file://` URL) makes the browser
-treat every request as coming from a null origin. `XMLHttpRequest`/`fetch` of a `data/*.json` file
-gets blocked by CORS in that situation, which is why an earlier version of this app required
-running a local server first:
-
-```
-npx http-server . -p 8000
-# then open http://localhost:8000
-```
-
-`<script src="...">` tags aren't subject to that restriction, so loading the data as JS instead of
-JSON lets the app work by simply double-clicking `index.html` — no server needed. Running it via a
-local server (as above) still works too, if you prefer.
+(`const questionSet1Data = [...]`), loaded via ordinary `<script>` tags in `index.html`. A
+`<script src="...">` tag works the same whether the page is opened as a `file://` URL or served
+over `http://`, so no local server is needed — that's different from `.json` files loaded with
+`fetch`/`XMLHttpRequest`, which the browser blocks under CORS when the page is opened as `file://`.
 
 If you need to edit the question data, edit `data/questionSet1.js` / `data/questionSet2.js`
 directly — the array literal is just JSON with a `const ... =` prefix and a trailing `;`.
