@@ -48,6 +48,8 @@ function checkDataLoaded() {
         set2Btn.disabled = false;
     } else {
         statusMessage.textContent = 'Error loading question data. Make sure data/questionSet1.js and data/questionSet2.js are present.';
+        set1Btn.disabled = true;
+        set2Btn.disabled = true;
     }
 }
 
@@ -110,6 +112,12 @@ function showQuestion(index) {
         }
 
         optionElement.addEventListener('click', () => {
+            // In practice mode, once revealed, lock the answer so seeing the
+            // correct option can't be used to switch to it after the fact
+            if (practiceMode && userAnswers[index] !== null) {
+                return;
+            }
+
             // Remove selected class from all options
             document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
 
